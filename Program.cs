@@ -138,45 +138,50 @@
             StreamReader reader = null;
             string line;
 
-            Console.Write("Tell me the path to file: ");
-            userText = Console.ReadLine();
+            //Console.Write("Tell me the path to file: ");
+            //userText = Console.ReadLine();
 
             try
             {
-                reader = new StreamReader(userText);
+                reader = new StreamReader("madLibsExample.txt");
                 line = reader.ReadLine();
 
                 while (line != null)
                 {
-                    //change variable by random value
                     line = ReplaceTags(line);
-                    //write the line to console window
                     Console.WriteLine(line);
-                    // Read the next line
                     line = reader.ReadLine();
                 }
-                //close the file
                 reader.Close();
+                Console.ReadLine();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.ReadLine();
             }
 
         }
         static string ReplaceTags(string line)
         {
             int tagStartIndex = line.IndexOf("{{:");
-            if (tagStartIndex != -1)
+            if (tagStartIndex != -1) //Check if there is any value of that type
             {
                 tagStartIndex += 3;
                 int tagStopIndex = line.IndexOf("}}");
                 string tagType = line.Substring(tagStartIndex, tagStopIndex - tagStartIndex);
                 string resultString;
+                string randomWord;
+                
                 switch (tagType)
                 {
                     case "NOUN":
-                        resultString = line.Replace("{{:NOUN}}", RandomWord(tagType));
+                        randomWord = RandomWord(GetNounArray());
+                        resultString = line.Replace("{{:NOUN}}", randomWord);
+                        return resultString;
+                    case "ADJECTIVE":
+                        randomWord = RandomWord(GetAdjectiveArray());
+                        resultString = line.Replace("{{:ADJECTIVE}}", randomWord);
                         return resultString;
                     default:
                         return line;
@@ -187,21 +192,23 @@
                 return line;
             }
         }
-        static string RandomWord(string wordType)
+        static string RandomWord(string[] wordsArray)
         {
             Random rnd = new Random();
-
-            switch (wordType)
-            {
-                case "NOUN":
-                    string[] nounArray = { "Rufus", "Bear", "Dakota", "Fido",
+            int arrayIndex = rnd.Next(wordsArray.Length);
+            return wordsArray[arrayIndex];
+        }
+        static string[] GetNounArray()
+        {
+            string[] nounArray = { "Rufus", "Bear", "Dakota", "Fido",
                           "Vanya", "Samuel", "Koani", "Volodya",
                           "Prince", "Yiska" };
-                    int mIndex = rnd.Next(nounArray.Length);
-                    return nounArray[mIndex];
-                default:
-                    return "place holder";
-            }
+            return nounArray; 
+        }
+        static string[] GetAdjectiveArray()
+        {
+            string[] adjectiveArray = { "Cool", "Green", "Red" };
+            return adjectiveArray;
         }
     }
 }
