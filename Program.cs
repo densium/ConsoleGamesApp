@@ -1,40 +1,65 @@
-﻿namespace ConsoleAppInterface
+﻿namespace ConsoleApp
 {
-    class Program
+    class Menu
     {
         static void Main(string[] args)
         {
+            string[] availableGames = {
+                "1. Capital cities - You will be given a country name, you should write down it's capital city",
+                "2. Math problems - Simple math problems to solve",
+                "3. Mad Libs - Random story with random words in it"
+            };
+
             Console.WriteLine("Hello! Welcome to my first C# program");
             while (true)
             {
-                Console.WriteLine("Choose the program you want to run");
-                Console.WriteLine("max_number | mad_libs | guess_game | sqrt");
+                Console.WriteLine("Here is a set of available games");
+                foreach (string gameDesc in availableGames)
+                {
+                    Console.WriteLine(gameDesc);
+                }
+                Console.Write("Choose the game you want to run: ");
                 string userText = Console.ReadLine();
 
                 switch (userText)
                 {
-                    case "max_number":
-                        InitializeGetMax();
+                    case "1":
                         Console.WriteLine("---");
+                        CapitalCitiesGame.InitializeLoop();
+                        Console.Clear();
                         break;
-                    case "mad_libs":
-                        InitializeMadLibs();
+                    case "2":
                         Console.WriteLine("---");
+                        MathProblemsGame.InitializeLoop();
+                        Console.Clear();
                         break;
-                    case "guess_game":
-                        // code block
-                        break;
-                    case "sqrt":
-                        InitializeGetSqrt();
+                    case "3":
                         Console.WriteLine("---");
+                        MadLibsGame.InitializeLoop();
+                        Console.Clear();
                         break;
                     default:
-                        Console.WriteLine("There is no such a program");
+                        Console.Clear();
+                        Console.WriteLine("Sorry, there is no such a game");
+                        Console.WriteLine("---");
                         break;
                 }
             }
         }
-        static void InitializeGetMax()
+    }
+
+    class CapitalCitiesGame
+    {
+        public static void InitializeLoop()
+        {
+            Console.WriteLine("Answer with the name of capital city of given country");
+            Console.ReadLine();
+        }
+    }
+
+    class MathProblemsGame
+    {
+        public static void InitializeLoop()
         {
             decimal firstInt;
             decimal secondInt;
@@ -65,7 +90,49 @@
                 }
             }
         }
-        static void InitializeMadLibs()
+        static void InitializeGetSqrt()
+        {
+            double firstInt;
+            string userText;
+
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Enter number: ");
+                    userText = Console.ReadLine();
+                    if (userText == "exit")
+                    {
+                        break;
+                    }
+
+                    firstInt = Convert.ToDouble(userText);
+                    Console.WriteLine("The result is: " + Math.Sqrt(firstInt));
+                    Console.WriteLine("---");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+        }
+        static decimal GetMax(decimal firstInt, decimal secondInt)
+        {
+            if (firstInt > secondInt)
+            {
+                return firstInt;
+            }
+            else
+            {
+                return secondInt;
+            }
+        }
+    }
+
+    class MadLibsGame
+    {
+        public static void InitializeLoop()
         {
             string userText;
             StreamReader reader = null;
@@ -134,44 +201,6 @@
                     return nounArray[mIndex];
                 default:
                     return "place holder";
-            }
-        }
-        static void InitializeGetSqrt()
-        {
-            double firstInt;
-            string userText;
-
-            while (true)
-            {
-                try
-                {
-                    Console.Write("Enter number: ");
-                    userText = Console.ReadLine();
-                    if (userText == "exit")
-                    {
-                        break;
-                    }
-
-                    firstInt = Convert.ToDouble(userText);
-                    Console.WriteLine("The result is: " + Math.Sqrt(firstInt));
-                    Console.WriteLine("---");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-
-        }
-        static decimal GetMax(decimal firstInt, decimal secondInt)
-        {
-            if (firstInt > secondInt)
-            {
-                return firstInt;
-            }
-            else
-            {
-                return secondInt;
             }
         }
     }
