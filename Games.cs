@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Microsoft.VisualBasic.FileIO;
 
 namespace ConsoleGamesApp
 {
@@ -15,6 +16,44 @@ namespace ConsoleGamesApp
     class MathProblemsGame
     {
         public static void InitializeLoop()
+        {
+            Console.WriteLine("You chose Math questions! You will be given a set of options to define question:");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+            
+            // Random operation
+            string[] operationsArray = { "Substract", "Add", "Multiple", "Divide" };
+            Random rnd = new Random();
+            int arrayIndex1 = rnd.Next(operationsArray.Length);
+            int arrayIndex2;
+            do
+            {
+                arrayIndex2 = rnd.Next(operationsArray.Length);
+            }
+            while (arrayIndex1 == arrayIndex2);
+            Console.WriteLine($"1. {operationsArray[arrayIndex1]}\n2. {operationsArray[arrayIndex2]}"); 
+            Console.Write("Chose operation: ");
+            string userText = Console.ReadLine();
+            byte option;
+            string chosenOperation;
+            try
+            {
+                option = Convert.ToByte(userText);
+                if (option > operationsArray.Length)
+                {
+                    Console.WriteLine("There is no such an option");
+                } 
+                else
+                {
+                    chosenOperation = operationsArray[option];
+                }
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        public static void GetMax()
         {
             decimal firstInt;
             decimal secondInt;
@@ -169,32 +208,24 @@ namespace ConsoleGamesApp
         }
         static string ReplaceTags(string line)
         {
-            int tagStartIndex = line.IndexOf("{{:");
-            if (tagStartIndex != -1) //Check if there is any value of that type
+            int tagStartIndex;
+            int tagStopIndex;
+            string tagType;
+            string randomWord;
+            while (true)
             {
-                tagStartIndex += 3;
-                int tagStopIndex = line.IndexOf("}}");
-                string tagType = line.Substring(tagStartIndex, tagStopIndex - tagStartIndex);
-                string resultString;
-                string randomWord;
-
-                switch (tagType)
+                tagStartIndex = line.IndexOf("{{:");
+                if (tagStartIndex == -1)
                 {
-                    case "NOUN":
-                        randomWord = RandomWord(GetNounArray());
-                        resultString = line.Replace("{{:NOUN}}", randomWord);
-                        return resultString;
-                    case "ADJECTIVE":
-                        randomWord = RandomWord(GetAdjectiveArray());
-                        resultString = line.Replace("{{:ADJECTIVE}}", randomWord);
-                        return resultString;
-                    default:
-                        return line;
+                    return line;
+                } 
+                else
+                {
+                    tagStopIndex = line.IndexOf("}}") + 2;
+                    tagType = line.Substring(tagStartIndex, tagStopIndex - tagStartIndex);
+                    randomWord = RandomWord(GetWordsArray(tagType));
+                    line = line.Replace(tagType, randomWord);
                 }
-            }
-            else
-            {
-                return line;
             }
         }
         static string RandomWord(string[] wordsArray)
@@ -203,24 +234,67 @@ namespace ConsoleGamesApp
             int arrayIndex = rnd.Next(wordsArray.Length);
             return wordsArray[arrayIndex];
         }
-        static string[] GetNounArray()
+
+
+        static string[] GetWordsArray(string wordType)
         {
-            string[] nounArray = { "Tentacle","Bagpipes","Whammy","Vandyke Beard","Stink Bomb","Black Magic","Loose Cannon","Teddy Bear","Meatwagon",            "Swampland","Skin And Bones","Godmother","Evil Eye","Chicanery","Tail Feather","Gizmo","Pandemonium","Great Power",            "Creepy-Crawly","Boogeyman","Mission from God","Elixir Of Life","Billy Goat","Wacko","Tabby Cat","Goblet","Gooseberry Bush",            "Enchantment","Dance of Death","Law Of The Land","Road-Kill","Controlled Substance","Rainbow Trout","Tribute","Houses Of Parliament",
+            string[] wordsArray = new string[200];
+            switch (wordType)
+            {
+                case "{{:NOUN}}":
+                    string[] nounsArray = {
+                        "Tentacle","Bagpipes","Whammy","Vandyke Beard","Stink Bomb","Black Magic","Loose Cannon","Teddy Bear","Meatwagon",
+            "Swampland","Skin And Bones","Godmother","Evil Eye","Chicanery","Tail Feather","Gizmo","Pandemonium","Great Power",
+            "Creepy-Crawly","Boogeyman","Mission from God","Elixir Of Life","Billy Goat","Wacko","Tabby Cat","Goblet","Gooseberry Bush",
+            "Enchantment","Dance of Death","Law Of The Land","Road-Kill","Controlled Substance","Rainbow Trout","Tribute","Houses Of Parliament",
             "Peer Of The Realm","Holy Terror","Private Security Force","Wastepaper Basket","Eternal Damnation","Unnoticed Mango",
             "Rocket Launcher","Personal Doodad","Barnacle","Thunderbird","Snake Pit","Superstructure","Smoked Salmon","Murderess",
             "Werewolf" };
-            return nounArray;
-        }
-        static string[] GetAdjectiveArray()
-        {
-            string[] adjectiveArray = { "Tactical","No - Show","Troublemaking","Hydraulic","Lambskin","Wild - Eyed","Cranky","Woolly - Haired","Glowering",
+                    wordsArray = nounsArray;
+                    break;
+                case "{{:ADJECTIVE}}":
+                    string[] adjectiveArray = { "Tactical","No - Show","Troublemaking","Hydraulic","Lambskin","Wild - Eyed","Cranky","Woolly - Haired","Glowering",
             "Tiger - Striped","Babbling","Bombshell","Nutcase","Departmental","Thrashing","Spiraling","Hotheaded",
             "Over - The - Counter","Droopy","Lizard - like","Earthbound","Exterminating","Forensic","Overstuffed","Sidekick",
             "Iron - Clad","Sleuthing","Well - Informed","Freaky","State of the Art","Bloodsucking","Provoking",
             "Predatory","Self - Serving","Rumbling","Muddled","Creaky","Deadbeat","Taunting","Four - Poster",
             "Smoking","Ultraviolet","Wannabe","Sheepish","Murderous","Flat - Footed","Ransacking","Cold - Blooded",
             "Bad - Tempered","Turn Of The Century" };
-            return adjectiveArray;
+                    wordsArray = adjectiveArray;
+                    break;
+                case "{{:ADVERB}}":
+                    string[] adverbArray = { "really","very","well","badly","today","yesterday","everyday","sometimes","often",
+            "rarely","early","late","soon","here","there","everywhere" };
+                    wordsArray = adverbArray;
+                    break;
+                case "{{:BODY_PART}}":
+                    string[] bodyPartArray = { "Head","Face","Hair","Ear","Neck","Forehead","Beard","Eye","Nose","Mouth","Chin",
+            "Shoulder","Elbow","Arm","Chest","Armpit","Forearm","Wrist","Back","Navel","Toes",
+            "Ankle","Instep","Toenail","Waist","Abdomen","Buttock","Hip","Leg","Thigh","Knee","Foot","Hand","Thumb" };
+                    wordsArray = bodyPartArray;
+                    break;
+                case "{{:NOUN_PL}}":
+                    string[] nounPlArray = { "addenda","addendums","aircraft","alumnae","alumni","analyses","antennas","antitheses",
+            "apexes","appendixes","axes","bacilli","bacteria","bases","beaus","bison","bureaus",
+            "cactuses","children","codices","crises","women","men" };
+                    wordsArray = nounPlArray;
+                    break;
+                case "{{:VERB}}":
+                    string[] verbArray = { "be","have","do","say","go","can","get","would","make","know","will","think","take",
+            "see","come","could","want","look","use","find","give","tell","work","may","should",
+            "call","try","ask","need","feel","become","leave","put","mean","keep","let","begin",
+            "seem","help","talk","turn","start","might","show","hear","play","run","move","like",
+            "live in","believe","hold","bring","happen","must","write","provide","sit","stand",
+            "lose","pay","meet","include","continue","set","learn","change","lead","understand",
+            "watch","follow","stop","create","speak","read","allow","add","spend","grow","open",
+            "walk","win","offer","remember","love","consider","appear","buy","wait","serve","die",
+            "send","expect","build","stay","fall","cut","reach","kill","remain" };
+                    wordsArray = verbArray;
+                    break;
+                default:
+                    break;
+            }
+            return wordsArray;
         }
     }
 }
