@@ -17,40 +17,97 @@ namespace ConsoleGamesApp
     {
         public static void InitializeLoop()
         {
+            // Game desc
             Console.WriteLine("You chose Math questions! You will be given a set of options to define question:");
-            Console.WriteLine("Press any key to continue...");
+            Console.Write("Press any key to continue...");
             Console.ReadKey();
             
-            // Random operation
-            string[] operationsArray = { "Substract", "Add", "Multiple", "Divide" };
+            // Generate 2 random operation
+            string[] initOperationsArr = { "Substract", "Add", "Multiple", "Divide" };
+            string[] execOperationsArr = new string[2];
             Random rnd = new Random();
-            int arrayIndex1 = rnd.Next(operationsArray.Length);
-            int arrayIndex2;
+            execOperationsArr[0] = initOperationsArr[rnd.Next(initOperationsArr.Length)];
             do
             {
-                arrayIndex2 = rnd.Next(operationsArray.Length);
+                execOperationsArr[1] = initOperationsArr[rnd.Next(initOperationsArr.Length)];
             }
-            while (arrayIndex1 == arrayIndex2);
-            Console.WriteLine($"1. {operationsArray[arrayIndex1]}\n2. {operationsArray[arrayIndex2]}"); 
-            Console.Write("Chose operation: ");
-            string userText = Console.ReadLine();
-            byte option;
-            string chosenOperation;
-            try
+            while (execOperationsArr[0] == execOperationsArr[1]);
+
+            // Write menu and wait for option
+            string chosenOperation = execOperationsArr[OptionsMenu(execOperationsArr) - 1];
+
+            // Generate 2 random numbers based on preferable option
+            int numberSize = 50;
+            int[] firstNumber = new int[2];
+            firstNumber[0]= rnd.Next(numberSize);
+            do
             {
-                option = Convert.ToByte(userText);
-                if (option > operationsArray.Length)
+                firstNumber[1] = rnd.Next(numberSize);
+            }
+            while (firstNumber[0] == firstNumber[1]);
+
+            // Chose from 2 numbers
+            // TODO: Write overload for OptionsMenu
+
+        }
+        public static byte OptionsMenu(string[] options)
+        {
+            // Write down a set of options
+            byte n = 1;
+            foreach (string option in options)
+            {
+                Console.WriteLine($"{n}. {option}");
+                n++;
+            }
+
+            // Check chosen option
+            string userText = String.Empty;
+            bool menuLoop = true;
+            byte optionNumber = 0;
+            while (menuLoop)
+            {
+                Console.Write("Chose operation: ");
+                userText = Console.ReadLine();
+                
+                // Check for empty string
+                if (userText == null)
+                {
+                    Console.WriteLine("No options chosen");
+                    break;
+                }
+
+                // Check for byte option
+                optionNumber = CheckOption(userText, options.Length);
+                if (optionNumber == 0)
                 {
                     Console.WriteLine("There is no such an option");
-                } 
+                    break;
+                }
+                else 
+                {
+                    menuLoop = false;
+                }
+            }
+            return optionNumber;
+        }
+        public static byte CheckOption(string userText, int maxOption)
+        {
+            try
+            {
+                byte optionNumber = Convert.ToByte(userText);
+                if (optionNumber > maxOption)
+                {
+                    return 0;
+                }
                 else
                 {
-                    chosenOperation = operationsArray[option];
+                    return optionNumber;
                 }
-            } 
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return 0;
             }
         }
         public static void GetMax()
@@ -127,6 +184,12 @@ namespace ConsoleGamesApp
     {
         public static void InitializeLoop()
         {
+            // Games desc
+            Console.WriteLine("You chose Mad Libs! You will be given a set of scenarios ot chose from");
+            Console.WriteLine("App will find all occurensies of such kind {{:NOUN}} and replace it with a proper word");
+            Console.Write("Press any key to continue...");
+            Console.ReadKey();
+
             // Check for files, check if there is any
             string[] madLibsfiles = Directory.GetFiles("./", "*.txt");
             if (madLibsfiles.Length == 0)
@@ -138,7 +201,7 @@ namespace ConsoleGamesApp
             }
 
             // Show the list of available files
-            Console.WriteLine("Here is the list of available scenarios");
+            Console.WriteLine("Here is the list of available scenarios:");
             byte n = 0;
             string fileText;
             int endPos;
