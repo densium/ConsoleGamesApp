@@ -38,6 +38,11 @@
                         MadLibsGame.InitializeLoop();
                         Console.Clear();
                         break;
+                    case "4":
+                        Console.WriteLine("---");
+                        Twosum();
+                        Console.Clear();
+                        break;
                     default:
                         Console.Clear();
                         Console.WriteLine("Sorry, there is no such a game");
