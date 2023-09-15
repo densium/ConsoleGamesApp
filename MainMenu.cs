@@ -2,12 +2,13 @@
 {
     class MainMenu
     {
-        static void Main(string[] args)
+        static void Main(string[] args) // TODO Replace Switch with dependency injection
         {
             string[] availableGames = {
                 "1. Capital cities - You will be given a country name, you should write down it's capital city",
                 "2. Math problems - Simple math problems to solve",
-                "3. Mad Libs - Random story with random words in it"
+                "3. Mad Libs - Random story with random words in it",
+                "4. TicTacToe - Сlassic" 
             };
 
             Console.WriteLine("Hello! Welcome to my first C# program");
@@ -40,7 +41,7 @@
                         break;
                     case "4":
                         Console.WriteLine("---");
-                        Twosum();
+                        TicTacToe.InitializeLoop();
                         Console.Clear();
                         break;
                     default:
