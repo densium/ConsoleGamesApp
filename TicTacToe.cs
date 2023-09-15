@@ -9,10 +9,11 @@ namespace ConsoleGamesApp
         public static void InitializeLoop()
         {
             bool runGameLoop = true;
+            string userText;
             string[,] simpleBoard = { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
+            
             Board mainBoard = new Board(simpleBoard);
             mainBoard.Draw();
-            string userText;
 
             while (runGameLoop) 
             {
@@ -40,6 +41,7 @@ namespace ConsoleGamesApp
                 } while (checkLoop);
                 
                 mainBoard.SetCell(option);
+                Console.Clear();
                 mainBoard.Draw();
                 if (mainBoard.CheckWin())
                 {
@@ -49,8 +51,8 @@ namespace ConsoleGamesApp
             }
 
             Console.WriteLine("Player {0} wins!", mainBoard.PlayerTurn);
-            Console.Write("Reset game? Type Y or N: ");
-            userText = Console.ReadLine();
+            Console.Write("Press any key to return to main menu...");
+            Console.ReadKey();
         }
     }
     class Board
