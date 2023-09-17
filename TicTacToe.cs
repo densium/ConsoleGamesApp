@@ -6,7 +6,7 @@ namespace ConsoleGamesApp
 {
     class TicTacToe
     {
-        public static void InitializeLoop()
+        public static string InitializeLoop()
         {
             bool runGameLoop = true;
             string userText;
@@ -50,9 +50,10 @@ namespace ConsoleGamesApp
                 mainBoard.SwitchPlayer();
             }
 
-            Console.WriteLine("Player {0} wins!", mainBoard.PlayerTurn);
-            Console.Write("Press any key to return to main menu...");
-            Console.ReadKey();
+            Console.WriteLine("Player {0} win!", mainBoard.PlayerTurn);
+            return "Player " + mainBoard.PlayerTurn + " win";
+            // Console.Write("Press any key to return to main menu...");
+            // Console.ReadKey();
         }
     }
     class Board

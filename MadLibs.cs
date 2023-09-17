@@ -1,6 +1,6 @@
 ﻿namespace ConsoleGamesApp
 {
-    class MadLibsGame
+    class MadLibs
     {
         public static void InitializeLoop()
         {
