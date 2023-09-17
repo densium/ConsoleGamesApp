@@ -16,11 +16,10 @@
             Console.WriteLine("Hello! Welcome to my first C# program");
             while (true)
             {
-                Console.Clear();
                 Console.WriteLine("Here is a set of available games");
+                int n = 1;
                 foreach (string gameDesc in availableGames)
                 {
-                    byte n = 1;
                     Console.WriteLine($"{n}. {gameDesc}");
                     n++;
                 }
@@ -52,6 +51,7 @@
                     default:
                         break;
                 }
+                Console.Clear();
             }
         }
     }
