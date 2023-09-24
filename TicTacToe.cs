@@ -23,6 +23,10 @@ namespace ConsoleGamesApp
                 {
                     Console.Write("Chose cell to put {0}: ", mainBoard.Turn);
                     userText = Console.ReadLine();
+                    if (userText == "Exit" || userText == "exit")
+                    {
+                        return "Player exits";
+                    }
                     
                     try
                     {
