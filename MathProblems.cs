@@ -19,16 +19,6 @@
                 execOperArr[i] = initOperArr[rndOperOption[i], 0];
             }
         }
-        private static int[] RandomNumbers(int howMany, int maxValue, int minValue = 0)
-        {
-            Random rnd = new Random();
-            int[] numsArr = new int[howMany];
-            for (int i = 0; i < howMany; i++)
-            {
-                numsArr[i] = rnd.Next(minValue, maxValue);
-            }
-            return numsArr;
-        }
         public void WriteProblem ()
         {
             Console.Write("{0} {1} {2} = ? ", numbersArr[0][numIndex[0]], initOperArr[chosenOperIndex, 1], numbersArr[1][numIndex[1]]);
@@ -78,13 +68,13 @@
             {
                 NumsForGame obj = new NumsForGame();
             
-                obj.OptionsMenu(obj.execOperArr);
+                obj.PrintOptions(obj.execOperArr);
                 obj.chosenOperIndex = obj.ChoseOption(obj.rndOperOption);
             
-                obj.OptionsMenu(obj.numbersArr[0]);
+                obj.PrintOptions(obj.numbersArr[0]);
                 obj.numIndex[0] = obj.ChoseOption(new int[] {0, 1});
             
-                obj.OptionsMenu(obj.numbersArr[1]);
+                obj.PrintOptions(obj.numbersArr[1]);
                 obj.numIndex[1] = obj.ChoseOption(new int[] {0, 1});
 
                 Console.Clear();

@@ -2,7 +2,7 @@
 {
     class GameObject
     {
-        public void OptionsMenu(string[] options)
+        public void PrintOptions(string[] options)
         {
             byte n = 1;
             foreach (string option in options)
@@ -11,7 +11,7 @@
                 n++;
             }
         }
-        public void OptionsMenu(int[] options)
+        public void PrintOptions(int[] options)
         {
             byte n = 1;
             foreach (int option in options)
@@ -19,6 +19,34 @@
                 Console.WriteLine($"{n}. {option}");
                 n++;
             }
+        }
+        public void PrintOptions(List<string> options)
+        {
+            byte n = 1;
+            foreach (string option in options)
+            {
+                Console.WriteLine($"{n}. {option}");
+                n++;
+            }
+        }
+        public static void PrintOptionsS(string[] options)
+        {
+            byte n = 1;
+            foreach (string option in options)
+            {
+                Console.WriteLine($"{n}. {option}");
+                n++;
+            }
+        }
+        public static int[] RandomNumbers(int howMany, int maxValue, int minValue = 0)
+        {
+            Random rnd = new Random();
+            int[] numsArr = new int[howMany];
+            for (int i = 0; i < howMany; i++)
+            {
+                numsArr[i] = rnd.Next(minValue, maxValue);
+            }
+            return numsArr;
         }
         public int ChoseOption(int[] optionsNums)
         {
@@ -68,6 +96,15 @@
                 Console.WriteLine(e.Message);
                 return 0;
             }
+        }
+        public static string[] Get1DFrom2D(string[,] inArr, int fieldIndex, int[] indexes)
+        {
+            string[] outArr = new string[indexes.Length];
+            for (int i = 0; i < indexes.Length; i++)
+            {
+                outArr[i] = inArr[indexes[i], fieldIndex];
+            }
+            return outArr;
         }
     }
 }

@@ -16,7 +16,7 @@
             Console.WriteLine("Hello! Welcome to my first C# program");
             while (true)
             {
-                Console.WriteLine("Here is a set of available games");
+                Console.WriteLine("Here is a set of available games:");
                 int n = 1;
                 foreach (string gameDesc in availableGames)
                 {
@@ -30,21 +30,21 @@
                 {
                     case "1":
                         CapitalCities.InitializeLoop();
-                        mainTable.SetNewScore("Capital Cities", mainTable.gameResult);
+                        mainTable.AddNewScore("Capital Cities", mainTable.gameResult);
                         break;
                     case "2":
                         MathProblems.InitializeLoop();
-                        mainTable.SetNewScore("Math Problems", mainTable.gameResult);
+                        mainTable.AddNewScore("Math Problems", mainTable.gameResult);
                         break;
                     case "3":
                         MadLibs.InitializeLoop();
                         break;
                     case "4":
                         mainTable.gameResult = TicTacToe.InitializeLoop();
-                        mainTable.SetNewScore("Tic Tac Toe", mainTable.gameResult);
+                        mainTable.AddNewScore("Tic Tac Toe", mainTable.gameResult);
                         break;
                     case "5":
-                        mainTable.OptionsMenu(mainTable.GetTable());
+                        mainTable.PrintOptions(mainTable.GetTable());
                         Console.WriteLine("Press any key to return to main menu...");
                         Console.ReadKey();
                         break;

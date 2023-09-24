@@ -1,8 +1,9 @@
 ﻿namespace ConsoleGamesApp
 {
-    class Highscores : GameObject // Rewrite to List
+    class Highscores : GameObject // Save to file
     {
-        private string[] highScoreTable = new string[100];
+        // private string[] highScoreTable = new string[100];
+        List<string> highScoreTable = new List<string>();
         private int n = 0;
         public int highScore = 0;
         public string gameResult = "";
@@ -11,22 +12,22 @@
         {
         }
 
-        public string[] GetTable()
+        public List<string> GetTable()
         {
             return highScoreTable;
         }
-        public void SetNewScore(string gameName, int newScore = 0)
+        public void AddNewScore(string gameName, int newScore = 0)
         {
-            Console.Write("Enter player name: ");
+            Console.Write("Game ends, enter player name: ");
             string userText = Console.ReadLine();
-            highScoreTable[n] = $"{gameName} - {userText} - {newScore}";
+            highScoreTable.Add($"{gameName} - {userText} - {newScore}");
             n++;
         }
-        public void SetNewScore(string gameName, string gameResult = "unknown")
+        public void AddNewScore(string gameName, string gameResult = "unknown")
         {
             Console.Write("Enter player name: ");
             string userText = Console.ReadLine();
-            highScoreTable[n] = $"{gameName} - {userText} - {gameResult}";
+            highScoreTable.Add($"{gameName} - {userText} - {gameResult}");
             n++;
         }
     }
