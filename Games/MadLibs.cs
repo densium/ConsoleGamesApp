@@ -1,8 +1,18 @@
-﻿namespace ConsoleGamesApp
+﻿using ConsoleGamesApp.Main;
+
+namespace ConsoleGamesApp.Games
 {
-    class MadLibs
+    class MadLibs : GameData, IScorableGame
     {
-        public static void InitializeLoop()
+        public MadLibs()
+        {
+            Name = "Mad libs";
+            InitializeLoop();
+            Score = 0;
+            Result = string.Empty;
+        }
+
+        public void InitializeLoop()
         {
             // Games desc
             Console.WriteLine("You chose Mad Libs! You will be given a set of scenarios ot chose from");

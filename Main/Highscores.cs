@@ -1,4 +1,4 @@
-﻿namespace ConsoleGamesApp
+﻿namespace ConsoleGamesApp.Main
 {
     class Highscores : GameObject // Save to file
     {
@@ -20,7 +20,7 @@
         {
             Console.Write("Game ends, enter player name: ");
             string userText = Console.ReadLine();
-            highScoreTable.Add($"{gameName} - {userText} - {newScore}");
+            highScoreTable.Add($"{gameName} - {userText} - {newScore} points");
             n++;
         }
         public void AddNewScore(string gameName, string gameResult = "unknown")

@@ -1,43 +1,13 @@
-﻿namespace ConsoleGamesApp
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleGamesApp.Main
 {
-    class GameObject
+    class Helpers
     {
-        public void PrintOptions(string[] options)
-        {
-            byte n = 1;
-            foreach (string option in options)
-            {
-                Console.WriteLine($"{n}. {option}");
-                n++;
-            }
-        }
-        public void PrintOptions(int[] options)
-        {
-            byte n = 1;
-            foreach (int option in options)
-            {
-                Console.WriteLine($"{n}. {option}");
-                n++;
-            }
-        }
-        public void PrintOptions(List<string> options)
-        {
-            byte n = 1;
-            foreach (string option in options)
-            {
-                Console.WriteLine($"{n}. {option}");
-                n++;
-            }
-        }
-        public static void PrintOptionsS(string[] options)
-        {
-            byte n = 1;
-            foreach (string option in options)
-            {
-                Console.WriteLine($"{n}. {option}");
-                n++;
-            }
-        }
         public static int[] RandomNumbers(int howMany, int maxValue, int minValue = 0)
         {
             Random rnd = new Random();
@@ -106,5 +76,6 @@
             }
             return outArr;
         }
+
     }
 }

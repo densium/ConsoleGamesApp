@@ -1,21 +1,28 @@
-﻿using System.Reflection.Metadata;
+﻿using ConsoleGamesApp.Main;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
-namespace ConsoleGamesApp
+namespace ConsoleGamesApp.Games
 {
-    class TicTacToe
+    class TicTacToe : GameData, IScorableGame
     {
-        public static string InitializeLoop()
+        public TicTacToe()
+        {
+            Name = "Tic Tac Toe";
+            InitializeLoop();
+        }
+
+        public void InitializeLoop()
         {
             bool runGameLoop = true;
             string userText;
             string[,] simpleBoard = { { "1", "2", "3" }, { "4", "5", "6" }, { "7", "8", "9" } };
-            
+
             Board mainBoard = new Board(simpleBoard);
             mainBoard.Draw();
 
-            while (runGameLoop) 
+            while (runGameLoop)
             {
                 bool checkLoop = true;
                 int option = 0;
@@ -25,9 +32,9 @@ namespace ConsoleGamesApp
                     userText = Console.ReadLine();
                     if (userText == "Exit" || userText == "exit")
                     {
-                        return "Player exits";
+                        Result = "Player exits";
                     }
-                    
+
                     try
                     {
                         option = Convert.ToInt32(userText);
@@ -39,11 +46,11 @@ namespace ConsoleGamesApp
 
                     if (option <= mainBoard.BoardLength || option > 0)
                     {
-                        checkLoop = !mainBoard.CheckCell(option); 
+                        checkLoop = !mainBoard.CheckCell(option);
                     }
-                    
+
                 } while (checkLoop);
-                
+
                 mainBoard.SetCell(option);
                 Console.Clear();
                 mainBoard.Draw();
@@ -55,7 +62,7 @@ namespace ConsoleGamesApp
             }
 
             Console.WriteLine("Player {0} win!", mainBoard.PlayerTurn);
-            return "Player " + mainBoard.PlayerTurn + " win";
+            Result = "Player " + mainBoard.PlayerTurn + " win";
             // Console.Write("Press any key to return to main menu...");
             // Console.ReadKey();
         }
@@ -65,7 +72,7 @@ namespace ConsoleGamesApp
         private byte _playerTurn;
         private char _turn;
         private int _boardLength;
-        private string[,] _boardArr = new string[3,3];
+        private string[,] _boardArr = new string[3, 3];
         public byte PlayerTurn { get { return _playerTurn; } }
         public char Turn { get { return _turn; } }
         public int BoardLength { get { return _boardLength; } }
@@ -77,7 +84,7 @@ namespace ConsoleGamesApp
             _boardArr = boardArr;
             _boardLength = _boardArr.GetLength(0) * _boardArr.GetLength(1);
         }
-        
+
         public void Draw() // TODO: Rewrite to expendable function 
         {
             for (int i = 0; i < _boardArr.GetLength(0); i++)
@@ -99,7 +106,7 @@ namespace ConsoleGamesApp
         {
             return "  " + cellFill[0] + "  |  " + cellFill[1] + "  |  " + cellFill[2] + "  ";
         }
-        
+
         private string BuildRow(bool bottom = false)
         {
             string cell = "     ";
@@ -144,13 +151,13 @@ namespace ConsoleGamesApp
 
             return false;
         }
-        
+
         public void SwitchPlayer()
         {
             if (_playerTurn == 1)
             {
                 _playerTurn = 2;
-                _turn = 'O'; 
+                _turn = 'O';
             }
             else
             {
@@ -186,7 +193,7 @@ namespace ConsoleGamesApp
                 y = cellNum % width;
             }
 
-            _boardArr[x,y] = _turn.ToString();
+            _boardArr[x, y] = _turn.ToString();
         }
     }
 }

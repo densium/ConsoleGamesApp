@@ -1,4 +1,6 @@
-﻿namespace ConsoleGamesApp
+﻿using ConsoleGamesApp.Main;
+
+namespace ConsoleGamesApp.Games
 {
     class NumsForGame : GameObject
     {
@@ -9,7 +11,7 @@
         public string[] execOperArr = new string[optSize];
         public int chosenOperIndex;
 
-        public int[][] numbersArr = { RandomNumbers(optSize, 100, 15) , RandomNumbers(optSize, 15) };
+        public int[][] numbersArr = { RandomNumbers(optSize, 100, 15), RandomNumbers(optSize, 15) };
         public int[] numIndex = new int[optSize];
 
         public NumsForGame()
@@ -19,7 +21,7 @@
                 execOperArr[i] = initOperArr[rndOperOption[i], 0];
             }
         }
-        public void WriteProblem ()
+        public void WriteProblem()
         {
             Console.Write("{0} {1} {2} = ? ", numbersArr[0][numIndex[0]], initOperArr[chosenOperIndex, 1], numbersArr[1][numIndex[1]]);
         }
@@ -56,30 +58,52 @@
             }
         }
     }
-    class MathProblems
+
+    class MathProblems : GameData, IScorableGame
     {
-        public static void InitializeLoop()
+        public MathProblems()
         {
-            Console.WriteLine("You chose Math questions! You will be given a set of options to define question");
-            Console.Write("Press any key to continue...\n");
-            Console.ReadKey();
-            
+            Name = "Math problems";
+            Score = 0;
+            Result = string.Empty;
+            InitializeLoop();
+        }
+
+        public void InitializeLoop()
+        {
+            Random rnd = new Random();
+            string[] gameDesc = { "You chose Math questions!", "You will be given a set of options to define question" };
+            PrintDesc(gameDesc);
+
             while (true)
             {
+                /**
+                Menu mathMenu = new Menu(x, rnd.Next(y));
+                mathMenu.PrintOptions("Here is your math problem: ");
+                mathMenu.GetOption();
+                if (mathMenu.ChosenOpt == citiesNames.Length + 1)
+                {
+                    break;
+                }
+                Score += mathMenu.CheckAnswer(1);
+                **/
+
                 NumsForGame obj = new NumsForGame();
-            
+
                 obj.PrintOptions(obj.execOperArr);
                 obj.chosenOperIndex = obj.ChoseOption(obj.rndOperOption);
-            
+
                 obj.PrintOptions(obj.numbersArr[0]);
-                obj.numIndex[0] = obj.ChoseOption(new int[] {0, 1});
-            
+                obj.numIndex[0] = obj.ChoseOption(new int[] { 0, 1 });
+
                 obj.PrintOptions(obj.numbersArr[1]);
-                obj.numIndex[1] = obj.ChoseOption(new int[] {0, 1});
+                obj.numIndex[1] = obj.ChoseOption(new int[] { 0, 1 });
 
                 Console.Clear();
                 Console.WriteLine("Here is your math problem:");
+
                 obj.WriteProblem();
+                
                 string userText = Console.ReadLine();
                 if (obj.CheckAnswer(Convert.ToInt32(userText)))
                 {
