@@ -40,9 +40,9 @@ namespace ConsoleGamesApp.Main
                         game = new TicTacToe();
                         break;
                     case 5:
-                        highscoreTable.PrintOptions(highscoreTable.GetTable());
-                        Console.WriteLine("Press any key to return to main menu...");
-                        Console.ReadKey();
+                        Menu highScores = new Menu(highscoreTable.GetTable(), false);
+                        highScores.PrintOptionsList();
+                        Helpers.WaitToQuit();
                         break;
                     default:
                         break;

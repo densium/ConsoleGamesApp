@@ -7,91 +7,46 @@ namespace ConsoleGamesApp.Games
         public MadLibs()
         {
             Name = "Mad libs";
-            InitializeLoop();
             Score = 0;
             Result = string.Empty;
+            InitializeLoop();
         }
 
         public void InitializeLoop()
         {
-            // Games desc
-            Console.WriteLine("You chose Mad Libs! You will be given a set of scenarios ot chose from");
-            Console.WriteLine("App will find all occurensies of such kind {{:NOUN}} and replace it with a proper word");
-            Console.Write("Press any key to continue...");
-            Console.ReadKey();
+            string[] gameDesc = { "You chose Mad Libs! You will be given a set of scenarios ot chose from",
+                "App will find all occurensies of such kind {{:NOUN}} and replace it with a proper word" };
+            Helpers.PrintDesc(gameDesc);
 
-            // Check for files, check if there is any
-            string[] madLibsfiles = Directory.GetFiles("./", "*.txt");
-            if (madLibsfiles.Length == 0)
+            Menu libsList = new Menu(Directory.GetFiles("./", "*.txt"), false);
+            if (libsList.Options.Length == 0)
             {
                 Console.WriteLine("There is no files to play with");
-                Console.Write("Press any key to return to main menu...");
-                Console.ReadKey();
+                Helpers.WaitToQuit();
                 return;
             }
 
-            // Show the list of available files
-            Console.WriteLine("Here is the list of available scenarios:");
-            byte n = 0;
-            string fileText;
-            int endPos;
-            foreach (string file in madLibsfiles)
-            {
-                n++;
-                endPos = file.Length - 6; // minus .txt
-                fileText = file.Substring(2, endPos); // minus ./
-                Console.WriteLine("{0}. {1}", n, fileText);
-            }
+            libsList.PrinOptionsCut("Here is the list of available scenarios:", 2, 6);
+            libsList.GetOption();
+            Console.WriteLine("");
+            Console.WriteLine("Here is your generated scenario:");
+            Thread.Sleep(250);
 
-            // Choose one file
-            string userText;
-            byte option;
-            bool menuLoop = true;
-            string pathToFile = "./Some_file.txt"; // placeholder for compiler
-            while (menuLoop)
-            {
-                Console.Write("Choose one: ");
-                userText = Console.ReadLine();
-                try
-                {
-                    option = Convert.ToByte(userText);
-                    if (option > madLibsfiles.Length)
-                    {
-                        Console.WriteLine("There is no such an option");
-                    }
-                    else
-                    {
-                        pathToFile = madLibsfiles[option - 1];
-                        menuLoop = false;
-                        Console.WriteLine("Here is your generated scenario:");
-                        Thread.Sleep(300);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-
-            // Read file and replace tags
-            StreamReader reader = null;
-            string line;
             try
             {
-                reader = new StreamReader(pathToFile);
-                line = reader.ReadLine();
-
+                StreamReader reader = new StreamReader(libsList.Options[libsList.AnswerToCheck]);
+                
+                string line = reader.ReadLine();
                 while (line != null)
                 {
                     line = ReplaceTags(line);
                     Console.WriteLine(line);
-                    Thread.Sleep(300);
+                    Thread.Sleep(250);
                     line = reader.ReadLine();
                 }
                 reader.Close();
-                Console.WriteLine("---");
-                Console.Write("Press any key to return to main menu...");
-                Console.ReadKey();
+                Console.WriteLine("");
+                Helpers.WaitToQuit();
             }
             catch (Exception e)
             {
@@ -99,7 +54,7 @@ namespace ConsoleGamesApp.Games
                 Console.ReadLine();
             }
         }
-        static string ReplaceTags(string line)
+        private string ReplaceTags(string line)
         {
             int tagStartIndex;
             int tagStopIndex;
@@ -121,13 +76,13 @@ namespace ConsoleGamesApp.Games
                 }
             }
         }
-        static string RandomWord(string[] wordsArray)
+        private string RandomWord(string[] wordsArray)
         {
             Random rnd = new Random();
             int arrayIndex = rnd.Next(wordsArray.Length);
             return wordsArray[arrayIndex];
         }
-        static string[] GetWordsArray(string wordType)
+        private string[] GetWordsArray(string wordType)
         {
             string[] wordsArray = new string[200];
             switch (wordType)

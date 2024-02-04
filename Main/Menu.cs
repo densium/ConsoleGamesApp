@@ -10,7 +10,7 @@ namespace ConsoleGamesApp.Main
     class Menu
     {
         public int ChosenOpt { get; set; }
-        public int OptToArr { get; set; }
+        public int AnswerToCheck { get; set; }
         public int LastOpt { get; set; }
         public int Answer { get; set; }
         public string[] Options { get; set; }
@@ -41,6 +41,16 @@ namespace ConsoleGamesApp.Main
             QuitOpt = true;
         }
 
+        public Menu(List<string> options, bool quitOpt)
+        {
+            UserText = string.Empty;
+            Options = new string[1];
+            OptionsList = options;
+            Answers = new int[1];
+            OptionsNums = new int[1];
+            QuitOpt = quitOpt;
+        }
+
         public Menu(int[] options, int answer)
         {
             UserText = string.Empty;
@@ -65,6 +75,22 @@ namespace ConsoleGamesApp.Main
                 Console.WriteLine($"{n}. -- Quit --");
             }
         }
+
+        public void PrinOptionsCut(string firstLine, int start, int length)
+        {
+            Console.WriteLine(firstLine);
+            byte n = 1;
+            foreach (string option in Options)
+            {
+                Console.WriteLine($"{n}. {option.Substring(start, option.Length - length)}");
+                n++;
+            }
+            if (QuitOpt)
+            {
+                Console.WriteLine($"{n}. -- Quit --");
+            }
+        }
+
         public void PrintOptions(string firstLine)
         {
             Console.WriteLine(firstLine);
@@ -114,6 +140,10 @@ namespace ConsoleGamesApp.Main
                 Console.WriteLine($"{n}. {option}");
                 n++;
             }
+            if (QuitOpt)
+            {
+                Console.WriteLine($"{n}. -- Quit --");
+            }
         }
 
         public void GetOption(string choseLine = "Chose option: ")
@@ -133,7 +163,7 @@ namespace ConsoleGamesApp.Main
                 try
                 {
                     ChosenOpt = Convert.ToByte(UserText);
-                    OptToArr = ChosenOpt - 1; // To array index
+                    AnswerToCheck = ChosenOpt - 1; // To array index
                 }
                 catch (Exception e)
                 {
@@ -158,7 +188,7 @@ namespace ConsoleGamesApp.Main
             LastOpt = ChosenOpt;
             int score = 0;
 
-            if (OptToArr == Answer)
+            if (AnswerToCheck == Answer)
             {
                 score = 10 * rate;
                 // Console.WriteLine($"You chose: {ChosenOpt}");

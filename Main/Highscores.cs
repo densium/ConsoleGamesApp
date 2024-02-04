@@ -1,10 +1,10 @@
 ﻿namespace ConsoleGamesApp.Main
 {
-    class Highscores : GameObject // Save to file
+    class Highscores
     {
         // private string[] highScoreTable = new string[100];
         List<string> highScoreTable = new List<string>();
-        private int n = 0;
+        public int Count { get; set; }
         public int highScore = 0;
         public string gameResult = "";
 
@@ -14,21 +14,21 @@
 
         public List<string> GetTable()
         {
-            return highScoreTable;
+            return highScoreTable;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
         }
         public void AddNewScore(string gameName, int newScore = 0)
         {
             Console.Write("Game ends, enter player name: ");
             string userText = Console.ReadLine();
             highScoreTable.Add($"{gameName} - {userText} - {newScore} points");
-            n++;
+            Count++;
         }
         public void AddNewScore(string gameName, string gameResult = "unknown")
         {
             Console.Write("Enter player name: ");
             string userText = Console.ReadLine();
             highScoreTable.Add($"{gameName} - {userText} - {gameResult}");
-            n++;
+            Count++;
         }
     }
 }

@@ -1,22 +1,87 @@
 ﻿using ConsoleGamesApp.Main;
+using System.Security.Cryptography;
 
 namespace ConsoleGamesApp.Games
 {
-    class NumsForGame : GameObject
+    class MathProblems : GameData, IScorableGame
     {
-        private static int optSize = 2;
+        public MathProblems()
+        {
+            Name = "Math problems";
+            Score = 0;
+            Result = string.Empty;
+            InitializeLoop();
+        }
+
+        public void InitializeLoop()
+        {
+            string[] gameDesc = { "You chose Math questions!", "You will be given a set of options to define question" };
+            Helpers.PrintDesc(gameDesc);
+
+            while (true)
+            {
+                NumsForGame mathObj = new NumsForGame();
+
+                // Выбрать операцию из 2 ух случайных - 2 случайных 1 выбранное
+                Menu mathMenu = new Menu(mathObj.execOperArr, true);
+                mathMenu.PrintOptions("Chose operation: ");
+                mathMenu.GetOption();
+                if (mathMenu.ChosenOpt == mathObj.execOperArr.Length + 1)
+                {
+                    break;
+                }
+                mathObj.chosenOperIndex = mathMenu.ChosenOpt;
+                Console.WriteLine("");
+
+
+                // 2 раза выбрать число из 2 ух случайных - 2 случайных, 1 выбранное
+                for (int i = 0; i < 2; i++)
+                {
+                    mathMenu.OptionsNums = mathObj.numbersArr[i];
+                    mathMenu.PrintOptionsNums("Chose number: ");
+                    mathMenu.GetOption();
+                    if (mathMenu.ChosenOpt == mathObj.numbersArr[i].Length + 1)
+                    {
+                        break;
+                    }
+                    mathObj.numIndex[i] = mathMenu.AnswerToCheck;
+                    Console.WriteLine("");
+                }
+
+                // Напечатать пример 
+                Console.Clear();
+                Console.WriteLine("Here is your math problem:");
+                mathObj.WriteProblem(); // В меню убрать
+
+                // Забрать ответ
+                mathMenu.AnswerToCheck = Convert.ToInt32(Console.ReadLine()); // В меню убрать ReadInt
+
+                // Проверить ответ
+                mathMenu.Answer = mathObj.FormAnswer();
+                Score += mathMenu.CheckAnswer(1);
+
+                Console.Write("Press any key to continue...\n");
+                Console.ReadKey();
+            }
+        }
+    }
+
+    class NumsForGame
+    {
+        private static int optionsSize = 2;
 
         public string[,] initOperArr = { { "Substract", "-" }, { "Add", "+" }, { "Multiple", "*" }, { "Divide", "/" } };
-        public int[] rndOperOption = RandomNumbers(optSize, 4);
-        public string[] execOperArr = new string[optSize];
+        public string[] execOperArr = new string[optionsSize];
+        
+        public int[] rndOperOption = Helpers.RandomNumbers(optionsSize, 4);
         public int chosenOperIndex;
 
-        public int[][] numbersArr = { RandomNumbers(optSize, 100, 15), RandomNumbers(optSize, 15) };
-        public int[] numIndex = new int[optSize];
+        public int[][] numbersArr = { Helpers.RandomNumbers(optionsSize, 100, 15), Helpers.RandomNumbers(optionsSize, 15) };
+        public int[] numIndex = new int[optionsSize];
 
         public NumsForGame()
         {
-            for (int i = 0; i < optSize; i++)
+            for (int i = 0; i < optionsSize; i++)
             {
                 execOperArr[i] = initOperArr[rndOperOption[i], 0];
             }
@@ -25,7 +90,7 @@ namespace ConsoleGamesApp.Games
         {
             Console.Write("{0} {1} {2} = ? ", numbersArr[0][numIndex[0]], initOperArr[chosenOperIndex, 1], numbersArr[1][numIndex[1]]);
         }
-        public bool CheckAnswer(int check)
+        public int FormAnswer()
         {
             int answer = 0;
             int x = numbersArr[0][numIndex[0]];
@@ -47,75 +112,7 @@ namespace ConsoleGamesApp.Games
                 default:
                     break;
             }
-
-            if (answer == check)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
-    class MathProblems : GameData, IScorableGame
-    {
-        public MathProblems()
-        {
-            Name = "Math problems";
-            Score = 0;
-            Result = string.Empty;
-            InitializeLoop();
-        }
-
-        public void InitializeLoop()
-        {
-            Random rnd = new Random();
-            string[] gameDesc = { "You chose Math questions!", "You will be given a set of options to define question" };
-            PrintDesc(gameDesc);
-
-            while (true)
-            {
-                /**
-                Menu mathMenu = new Menu(x, rnd.Next(y));
-                mathMenu.PrintOptions("Here is your math problem: ");
-                mathMenu.GetOption();
-                if (mathMenu.ChosenOpt == citiesNames.Length + 1)
-                {
-                    break;
-                }
-                Score += mathMenu.CheckAnswer(1);
-                **/
-
-                NumsForGame obj = new NumsForGame();
-
-                obj.PrintOptions(obj.execOperArr);
-                obj.chosenOperIndex = obj.ChoseOption(obj.rndOperOption);
-
-                obj.PrintOptions(obj.numbersArr[0]);
-                obj.numIndex[0] = obj.ChoseOption(new int[] { 0, 1 });
-
-                obj.PrintOptions(obj.numbersArr[1]);
-                obj.numIndex[1] = obj.ChoseOption(new int[] { 0, 1 });
-
-                Console.Clear();
-                Console.WriteLine("Here is your math problem:");
-
-                obj.WriteProblem();
-                
-                string userText = Console.ReadLine();
-                if (obj.CheckAnswer(Convert.ToInt32(userText)))
-                {
-                    Console.WriteLine("Right answer!");
-                }
-                else
-                {
-                    Console.WriteLine("Wrong answer!");
-                }
-                Console.Write("Press any key to continue...\n");
-                Console.ReadKey();
-            }
+            return answer;
         }
     }
 }

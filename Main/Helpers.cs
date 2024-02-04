@@ -18,55 +18,7 @@ namespace ConsoleGamesApp.Main
             }
             return numsArr;
         }
-        public int ChoseOption(int[] optionsNums)
-        {
-            string userText = "";
-            bool menuLoop = true;
-            int optionNumber = 0;
-            while (menuLoop)
-            {
-                Console.Write("Chose option: ");
-                userText = Console.ReadLine();
 
-                if (userText == null)
-                {
-                    Console.WriteLine("No options chosen");
-                    break;
-                }
-
-                optionNumber = CheckOptionByte(userText, optionsNums.Length);
-                if (optionNumber == 0)
-                {
-                    Console.WriteLine("There is no such an option");
-                    break;
-                }
-                else
-                {
-                    menuLoop = false;
-                }
-            }
-            return optionsNums[optionNumber - 1];
-        }
-        public byte CheckOptionByte(string userText, int maxOption)
-        {
-            try
-            {
-                byte optionNumber = Convert.ToByte(userText);
-                if (optionNumber > maxOption)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return optionNumber;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return 0;
-            }
-        }
         public static string[] Get1DFrom2D(string[,] inArr, int fieldIndex, int[] indexes)
         {
             string[] outArr = new string[indexes.Length];
@@ -77,5 +29,21 @@ namespace ConsoleGamesApp.Main
             return outArr;
         }
 
+        public static void WaitToQuit()
+        {
+            Console.WriteLine("Press any key to return to main menu...");
+            Console.ReadKey();
+        }
+
+        public static void PrintDesc(string[] gamedesc)
+        {
+            foreach (var line in gamedesc)
+            {
+                Console.WriteLine(line);
+            }
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+        }
     }
 }

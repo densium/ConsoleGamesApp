@@ -21,7 +21,7 @@ namespace ConsoleGamesApp.Games
             int pointsValue = 4;
             Random rnd = new Random();
             string[] gameDesc = { "Welcome to Capital Cities!", "You will be given a series of country names", "Answer with the name of capital city" };
-            PrintDesc(gameDesc);
+            Helpers.PrintDesc(gameDesc);
 
             while (true)
             {
